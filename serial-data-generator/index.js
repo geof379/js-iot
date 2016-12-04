@@ -5,7 +5,8 @@ var options = {
     port: "/dev/ttyUSB0",
     help: false,
     verbose: false,
-    length: 16,
+    size: 16,
+    count: 1,
 };
 
 const usage = "usage: node index.js [options]\n" +
@@ -13,7 +14,8 @@ const usage = "usage: node index.js [options]\n" +
 "  -h, --help \n" +
 "  -v, --verbose \n" +
 "  -p, --port <name>\n" +
-"  -l, --length \n";
+"  -s, --size \n" +
+"  -c, --count \n" ;
 
 for (var i = 0; i < args.length; i++) {
     var arg = args[i];
@@ -27,23 +29,32 @@ for (var i = 0; i < args.length; i++) {
         case '--verbose':
             options.verbose = true;
             break;
-        case '-l':
-        case '--length':
+        case '-s':
+        case '--size':
             var num = args[i + 1];
             if (typeof num == 'undefined') {
                 console.log(usage);
                 process.exit(0);
             }
-            options.length = parseInt(num);
+            options.size = parseInt(num);
             break;
-        case '-p':
-        case '--port':
-            var port = args[i + 1];
-            if (typeof port == 'undefined') {
+        case '-c':
+        case '--count':
+            var num = args[i + 1];
+            if (typeof num == 'undefined') {
                 console.log(usage);
                 process.exit(0);
             }
-            options.port = port;
+            options.count = parseInt(num);
+            break;
+        case '-p':
+        case '--port':
+            var str = args[i + 1];
+            if (typeof str == 'undefined') {
+                console.log(usage);
+                process.exit(0);
+            }
+            options.port = str;
             break;
     }
 }
@@ -56,7 +67,7 @@ var port = new SerialPort(options.port, {
     parser: SerialPort.parsers.raw
   });
 
-var txBuffer = Buffer.alloc(options.length);
+var txBuffer = Buffer.alloc(options.size);
 var rxBuffer = Buffer.alloc(0);
 
 port.on('open', portOpen);
@@ -74,14 +85,15 @@ function portOpen(err) {
         console.log("open: " + err.message);
         return;
     }
-    console.log("TX: %d bytes", txBuffer.length);
-    port.write(txBuffer, portWrite);
+    console.log("TX: %d bytes x %d", txBuffer.length, options.count);
+    for (var i = 0; i < options.count; i++)
+        port.write(txBuffer, portWrite);
 }
 
 function portData(data) {
     console.log("RX: %d bytes", data.length);
     rxBuffer = Buffer.concat([rxBuffer, data]);
-    if (rxBuffer.length == txBuffer.length)
+    if (rxBuffer.length == (txBuffer.length * options.count))
         process.exit(0);
 }
 
