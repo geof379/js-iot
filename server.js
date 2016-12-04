@@ -1,7 +1,5 @@
 var device = require("iotivity-node")(), light;
 
-device.configure({role: "server"});
-
 device.registerResource({
 	id: { path: "/a/light" },
 	resourceTypes: [ "core.light" ],
