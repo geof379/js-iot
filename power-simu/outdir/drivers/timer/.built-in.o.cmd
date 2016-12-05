@@ -1,1 +1,1 @@
-cmd_drivers/timer/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o drivers/timer/built-in.o drivers/timer/loapic_timer.o drivers/timer/sys_clock_init.o 
+cmd_drivers/timer/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-elf/i586-poky-elf-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o drivers/timer/built-in.o drivers/timer/hpet.o drivers/timer/sys_clock_init.o 

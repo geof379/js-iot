@@ -1,16 +1,15 @@
 MEMORY
     {
-    ROM (rx) : ORIGIN = 0x40030000, LENGTH = 144*1K
-    RAM (wx) : ORIGIN = 0xA8006400, LENGTH = 55*1K
+    RAM (wx) : ORIGIN = 0x00100000, LENGTH = 192*1K
     IDT_LIST : ORIGIN = 2K, LENGTH = 2K
     }
-OUTPUT_FORMAT("elf32-iamcu")
-OUTPUT_ARCH(iamcu:intel)
+OUTPUT_FORMAT("elf32-i386", "elf32-i386", "elf32-i386")
+OUTPUT_ARCH(i386)
 SECTIONS
  {
 
- _image_rom_start = 0x40030000;
- _image_text_start = 0x40030000;
+ _image_rom_start = 0x00100000;
+ _image_text_start = 0x00100000;
  text () :
  {
  *(.text_start)
@@ -23,7 +22,7 @@ SECTIONS
  *(.fini)
  *(.eini)
 
- } > ROM
+ } > RAM
  _image_text_end = .;
  devconfig () :
  {
@@ -31,7 +30,7 @@ SECTIONS
   *(".devconfig.*")
   KEEP(*(SORT(".devconfig*")))
   __devconfig_end = .;
- } > ROM
+ } > RAM
  rodata () :
  {
  *(.rodata)
@@ -40,12 +39,12 @@ SECTIONS
  . = ALIGN(8); _idt_base_address = .; . += (8 * 256);
  . = ALIGN(4); _irq_to_interrupt_vector = .; . += 128;
 
- } > ROM
+ } > RAM
  _image_rom_end = .;
  __data_rom_start = ALIGN(4);
 
 
- datas () : AT(__data_rom_start)
+ datas () :
  {
 
  _image_ram_start = .;
@@ -113,7 +112,6 @@ SECTIONS
  __bss_end = .;
 
  } > RAM
-   AT > RAM
  noinit (NOLOAD ) :
  {
  *(.noinit)
@@ -140,8 +138,6 @@ SECTIONS
  }
  ASSERT(SIZEOF(initlevel_error) == 0, "Undefined initialization levels used.")
  }
-__data_size = (__data_ram_end - __data_ram_start);
-__data_num_words = (__data_size + 3) >> 2;
 SECTIONS
  {
  .shstrtab 0 (): { *(.shstrtab) }

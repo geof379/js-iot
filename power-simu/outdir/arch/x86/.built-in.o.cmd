@@ -1,1 +1,1 @@
-cmd_arch/x86/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o arch/x86/built-in.o arch/x86/core/built-in.o arch/x86/soc/quark_se/built-in.o 
+cmd_arch/x86/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-elf/i586-poky-elf-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o arch/x86/built-in.o arch/x86/core/built-in.o arch/x86/soc/ia32/built-in.o 

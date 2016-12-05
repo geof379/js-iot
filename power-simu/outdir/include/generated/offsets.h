@@ -39,7 +39,7 @@ extern "C" {
 #define	__tNANO_fiber_OFFSET	0x0
 #define	__tNANO_task_OFFSET	0x4
 #define	__tNANO_current_OFFSET	0x8
-#define	__tNANO_SIZEOF	0x14
+#define	__tNANO_SIZEOF	0x20
 #define	__tTCS_link_OFFSET	0x0
 #define	__tTCS_prio_OFFSET	0xC
 #define	__tTCS_flags_OFFSET	0x4

@@ -1,1 +1,0 @@
-cmd_samples/nanokernel/apps/hello_world/src/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o samples/nanokernel/apps/hello_world/src/built-in.o samples/nanokernel/apps/hello_world/src/main.o 

@@ -1,1 +1,1 @@
-cmd_boards/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o boards/built-in.o boards/arduino_101/built-in.o 
+cmd_boards/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-elf/i586-poky-elf-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o boards/built-in.o boards/qemu_x86/built-in.o 

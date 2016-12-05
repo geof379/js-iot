@@ -1,1 +1,0 @@
-cmd_arch/x86/soc/quark_se/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o arch/x86/soc/quark_se/built-in.o arch/x86/soc/quark_se/soc.o arch/x86/soc/quark_se/soc_config.o arch/x86/soc/quark_se/eoi.o 

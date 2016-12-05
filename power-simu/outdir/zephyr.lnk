@@ -5,7 +5,7 @@
 -e __start
 --start-group
 --whole-archive  --no-whole-archive
- drivers/built-in.o    samples/nanokernel/apps/hello_world/src/built-in.o  lib/built-in.o  kernel/built-in.o  misc/built-in.o  net/built-in.o  boards/built-in.o  arch/built-in.o
+ drivers/built-in.o    ../js-iot/power-simu/src/built-in.o  lib/built-in.o  kernel/built-in.o  misc/built-in.o  net/built-in.o  boards/built-in.o  arch/built-in.o
 ./arch/x86/core/offsets/offsets.o
 --end-group
--L /opt/zephyr-sdk/sysroots/iamcu-poky-elfiamcu/usr/lib/i586-poky-elfiamcu/5.2.1 -L /opt/zephyr-sdk/sysroots/iamcu-poky-elfiamcu/usr/i586-default-elfiamcu/lib/  -lgcc
+-L /opt/zephyr-sdk/sysroots/i586-poky-elf/usr/lib/i586-poky-elf/5.2.0 -L /opt/zephyr-sdk/sysroots/i586-poky-elf/usr/i586-poky-elf/lib  -lgcc
