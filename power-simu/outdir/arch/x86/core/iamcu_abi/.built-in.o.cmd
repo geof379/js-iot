@@ -1,0 +1,1 @@
+cmd_arch/x86/core/iamcu_abi/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o arch/x86/core/iamcu_abi/built-in.o arch/x86/core/iamcu_abi/swap.o arch/x86/core/iamcu_abi/intstub.o arch/x86/core/iamcu_abi/thread.o arch/x86/core/iamcu_abi/iamcu.o 

@@ -1,0 +1,1 @@
+cmd_misc/debug/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o misc/debug/built-in.o misc/debug/mem_safe_check_boundaries.o 

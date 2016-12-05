@@ -1,0 +1,1 @@
+cmd_boards/arduino_101/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o boards/arduino_101/built-in.o boards/arduino_101/board.o boards/arduino_101/pinmux.o 

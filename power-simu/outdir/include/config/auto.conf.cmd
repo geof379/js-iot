@@ -1,0 +1,106 @@
+deps_config := \
+	/home/spoussa/src/iot/zephyr/misc/debug/Kconfig \
+	/home/spoussa/src/iot/zephyr/lib/crypto/tinycrypt/Kconfig \
+	/home/spoussa/src/iot/zephyr/misc/Kconfig \
+	/home/spoussa/src/iot/zephyr/net/ip/Kconfig \
+	/home/spoussa/src/iot/zephyr/net/bluetooth/Kconfig \
+	/home/spoussa/src/iot/zephyr/net/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/nble/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/qmsi/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/aio/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/ipm/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/clock_control/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/watchdog/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/rtc/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/adc/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/pinmux/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/pwm/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/i2c/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/spi/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/shared_irq/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/gpio/Kconfig.atmel_sam3 \
+	/home/spoussa/src/iot/zephyr/drivers/gpio/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/pci/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/grove/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/random/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/timer/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/interrupt_controller/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig.atmel_sam3 \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig.nsim \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig.stellaris \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig.k20 \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig.ns16550 \
+	/home/spoussa/src/iot/zephyr/drivers/serial/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/ethernet/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/console/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/802.15.4/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/bluetooth/Kconfig \
+	/home/spoussa/src/iot/zephyr/drivers/Kconfig \
+	/home/spoussa/src/iot/zephyr/kernel/microkernel/Kconfig \
+	/home/spoussa/src/iot/zephyr/kernel/nanokernel/Kconfig \
+	/home/spoussa/src/iot/zephyr/kernel/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/arduino_101/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/arduino_101_sss/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/arduino_due/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/basic_cortex_m3/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/basic_minuteia/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/frdm_k64f/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/galileo/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/minnowboard/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/qemu_cortex_m3/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/qemu_x86/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/quark_d2000_crb/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_ctb/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_devboard/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_sss_ctb/Kconfig \
+	/home/spoussa/src/iot/zephyr/boards/arduino_101/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/arduino_101_sss/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/arduino_due/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/basic_cortex_m3/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/basic_minuteia/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/frdm_k64f/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/galileo/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/minnowboard/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/qemu_cortex_m3/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/qemu_x86/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/quark_d2000_crb/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_ctb/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_devboard/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/quark_se_sss_ctb/Kconfig.board \
+	/home/spoussa/src/iot/zephyr/boards/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/atom/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/ia32/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_d2000/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_se/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_x1000/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/atom/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/ia32/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_d2000/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_se/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/x86/soc/quark_x1000/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/x86/core/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/atmel_sam3/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/fsl_frdm_k64f/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/ti_lm3s6965/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/core/cortex_m/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/core/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/atmel_sam3/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/fsl_frdm_k64f/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/arm/soc/ti_lm3s6965/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/arc/soc/quark_se_ss/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arc/soc/quark_se_ss/Kconfig.soc \
+	/home/spoussa/src/iot/zephyr/arch/arc/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/arm/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/x86/Kconfig \
+	/home/spoussa/src/iot/zephyr/arch/Kconfig \
+	/home/spoussa/src/iot/zephyr/Kconfig.zephyr \
+	Kconfig
+
+include/config/auto.conf: \
+	$(deps_config)
+
+ifneq "$(KERNELVERSION)" "1.0.0"
+include/config/auto.conf: FORCE
+endif
+
+$(deps_config): ;

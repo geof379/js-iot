@@ -1,0 +1,1 @@
+cmd_drivers/console/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/iamcu-poky-elfiamcu/i586-poky-elfiamcu-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o drivers/console/built-in.o drivers/console/uart_console.o drivers/console/ipm_console_receiver.o 
