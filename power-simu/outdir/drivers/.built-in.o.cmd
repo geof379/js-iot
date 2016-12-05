@@ -1,1 +1,0 @@
-cmd_drivers/built-in.o :=  /opt/zephyr-sdk/sysroots/i686-pokysdk-linux/usr/bin/i586-poky-elf/i586-poky-elf-ld -nostartfiles -nodefaultlibs -nostdlib -static   -r -o drivers/built-in.o drivers/console/built-in.o drivers/random/built-in.o drivers/serial/built-in.o drivers/timer/built-in.o drivers/interrupt_controller/built-in.o drivers/aio/built-in.o 
