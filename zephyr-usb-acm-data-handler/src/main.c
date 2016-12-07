@@ -9,6 +9,10 @@ K_FIFO_DEFINE(rx_fifo);
 #define BUF_SIZE  256
 #define BUF_COUNT 8
 
+#ifndef TX_POLL_MODE
+static volatile bool data_transmitted;
+#endif
+
 static struct device *uart_dev;
 
 typedef struct uart_buf {
@@ -26,6 +30,11 @@ static uint8_t rx_buffer[BUF_SIZE];
 static void interrupt_handler(struct device *unused)
 {
     while (uart_irq_update(uart_dev) && uart_irq_is_pending(uart_dev)) {
+
+#ifndef TX_POLL_MODE
+        if (uart_irq_tx_ready(uart_dev))
+            data_transmitted = true;
+#endif
 
         if (uart_irq_rx_ready(uart_dev)) {
                     
@@ -52,7 +61,9 @@ static void interrupt_handler(struct device *unused)
     }
 }
 
-int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) {
+#ifdef TX_POLL_MODE
+int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) 
+{
 
     printf("sending %d bytes ... ", lengthInBytes);
     const uint8_t *buffer = (const uint8_t*)(pBuffer);
@@ -62,7 +73,25 @@ int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) {
     printf("done\n");
     return 0;
 }
+#else
+int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) 
+{
+    printf("sending %d bytes ... ", lengthInBytes);
+    const uint8_t *buffer = (const uint8_t*)(pBuffer);
 
+    uart_irq_tx_enable(dev);
+
+    data_transmitted = false;
+    uart_fifo_fill(dev, buffer, lengthInBytes);
+    while (data_transmitted == false)
+        ;
+
+    uart_irq_tx_disable(dev);
+
+    return 0;
+}
+
+#endif
 void fill_data(uint8_t *p, uint8_t len)
 {
     for (uint8_t i = 0; i < len; i++)
