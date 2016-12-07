@@ -2,12 +2,14 @@
 #include <string.h>
 #include <device.h>
 #include <uart.h>
+#include <misc/byteorder.h>
 #include <zephyr.h>
 
 K_FIFO_DEFINE(rx_fifo);
 
 #define BUF_SIZE  256
 #define BUF_COUNT 8
+#define UART_FIFO_SIZE 63
 
 #ifndef TX_POLL_MODE
 static volatile bool data_transmitted;
@@ -56,7 +58,7 @@ static void interrupt_handler(struct device *unused)
         }
         else {
             printf("ISR: spurious\n");
-            break;
+            //break;
         }
     }
 }
@@ -76,26 +78,47 @@ int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes)
 #else
 int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) 
 {
-    printf("sending %d bytes ... ", lengthInBytes);
+    printf("sending %d bytes ... \n", lengthInBytes);
     const uint8_t *buffer = (const uint8_t*)(pBuffer);
+    uint32_t bytesSent = 0;
+    uint32_t remaining = lengthInBytes;
+    uint32_t len;
 
-    uart_irq_tx_enable(dev);
 
-    data_transmitted = false;
-    uart_fifo_fill(dev, buffer, lengthInBytes);
-    while (data_transmitted == false)
-        ;
+    while (bytesSent < lengthInBytes) {
+    
+        if (remaining >= UART_FIFO_SIZE)
+            len = UART_FIFO_SIZE;
+        else
+            len = remaining;
 
-    uart_irq_tx_disable(dev);
+        uart_irq_tx_enable(dev);
+        data_transmitted = false;
+        len = uart_fifo_fill(dev, &buffer[bytesSent], len);
+        while (data_transmitted == false)
+            ;
+        uart_irq_tx_disable(dev);
+
+        remaining -= len;
+        bytesSent += len;
+
+        printf("sent=%lu, remaining=%lu block size=%lu\n", bytesSent, remaining, len);
+
+    }
+ 
+    printf("done %d bytes\n", bytesSent);
 
     return 0;
 }
 
 #endif
-void fill_data(uint8_t *p, uint8_t len)
+void fill_data(uint8_t *p, uint16_t len)
 {
-    for (uint8_t i = 0; i < len; i++)
-        p[i] = i;
+    uint8_t j;
+    uint16_t i;
+
+    for (i = 0, j = 0; i < len; i++, j++)
+        p[i] = j % 256;
 }
 
 void read_and_echo_data(struct device *dev)
@@ -105,13 +128,18 @@ void read_and_echo_data(struct device *dev)
     while(true) {
         rx_buf = k_fifo_get(&rx_fifo, K_FOREVER);
         if (rx_buf != NULL) {
-            printf("FIFO get: %d bytes [%d]\n", rx_buf->len, rx_buf->data[0]);
-            
-            uint8_t len = rx_buf->len;
-            if (rx_buf->data[0] != 0) {
-                len = rx_buf->data[0];
+
+            uint16_t len = sys_be16_to_cpu(*(uint16_t *)rx_buf->data);
+
+            printf("FIFO get: %d bytes [hdr=%d]\n", rx_buf->len, len);
+
+            if (len != 0) {
                 fill_data(rx_buf->data, len);
             }
+            else {
+                len = rx_buf->len;
+            }
+
             send_data(dev, rx_buf->data, len);
         }
     }
