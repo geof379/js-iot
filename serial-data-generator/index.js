@@ -78,12 +78,28 @@ var port = new SerialPort(options.port, {
     parser: SerialPort.parsers.raw
   });
 
-var txBuffer = Buffer.alloc(options.size).fill(options.fill);
+var txBuffer = Buffer.alloc(options.size);
 var rxBuffer = Buffer.alloc(0);
 var fillBuffer = Buffer.alloc(options.fill);
 
-for (var i = 0; i < options.fill; i++)
-    fillBuffer.writeInt8(i, i);
+if (options.fill) {
+    txBuffer.writeUInt16BE(options.fill, 0);
+
+    var value = 0;
+    for (var i = 0; i < options.fill; i++) {
+        fillBuffer.writeUInt8(value, i);
+        if (value == 255)
+            value = 0;
+        else
+            value++;
+    }
+}
+
+if (options.verbose) {
+    console.log(txBuffer);
+    console.log(fillBuffer);
+}
+
 
 port.on('open', portOpen);
 port.on('data', portData);
@@ -119,7 +135,9 @@ function portData(data) {
                 console.log("TX == RX");
             else
                 console.log("TX != RX");
-            console.log(rxBuffer);
+            if (options.verbose)
+                console.log(rxBuffer);
+
             process.exit(0);
         }
     }
