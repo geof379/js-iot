@@ -11,9 +11,7 @@ K_FIFO_DEFINE(rx_fifo);
 #define BUF_COUNT 8
 #define UART_FIFO_SIZE 63
 
-#ifndef TX_POLL_MODE
 static volatile bool data_transmitted;
-#endif
 
 static struct device *uart_dev;
 
@@ -33,10 +31,8 @@ static void interrupt_handler(struct device *unused)
 {
     while (uart_irq_update(uart_dev) && uart_irq_is_pending(uart_dev)) {
 
-#ifndef TX_POLL_MODE
         if (uart_irq_tx_ready(uart_dev))
             data_transmitted = true;
-#endif
 
         if (uart_irq_rx_ready(uart_dev)) {
                     
@@ -63,19 +59,6 @@ static void interrupt_handler(struct device *unused)
     }
 }
 
-#ifdef TX_POLL_MODE
-int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) 
-{
-
-    printf("sending %d bytes ... ", lengthInBytes);
-    const uint8_t *buffer = (const uint8_t*)(pBuffer);
-    while (lengthInBytes--)
-        uart_poll_out(dev, *buffer++);
-
-    printf("done\n");
-    return 0;
-}
-#else
 int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes) 
 {
     printf("sending %d bytes ... \n", lengthInBytes);
@@ -83,7 +66,6 @@ int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes)
     uint32_t bytesSent = 0;
     uint32_t remaining = lengthInBytes;
     uint32_t len;
-
 
     while (bytesSent < lengthInBytes) {
     
@@ -101,9 +83,6 @@ int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes)
 
         remaining -= len;
         bytesSent += len;
-
-        printf("sent=%lu, remaining=%lu block size=%lu\n", bytesSent, remaining, len);
-
     }
  
     printf("done %d bytes\n", bytesSent);
@@ -111,14 +90,13 @@ int send_data(struct device *dev, const void* pBuffer, uint32_t lengthInBytes)
     return 0;
 }
 
-#endif
 void fill_data(uint8_t *p, uint16_t len)
 {
     uint8_t j;
     uint16_t i;
 
     for (i = 0, j = 0; i < len; i++, j++)
-        p[i] = j % 256;
+        p[i] = j; /* j wraps */
 }
 
 void read_and_echo_data(struct device *dev)
@@ -133,6 +111,8 @@ void read_and_echo_data(struct device *dev)
 
             printf("FIFO get: %d bytes [hdr=%d]\n", rx_buf->len, len);
 
+            /* if len is 0, echo bach the same data */
+            /* if len is !0, echo bach len bytes of data w/ filled content so receiver can verify */
             if (len != 0) {
                 fill_data(rx_buf->data, len);
             }
