@@ -105,7 +105,6 @@ if (options.verbose) {
     console.log(fillBuffer);
 }
 
-
 port.on('open', portOpen);
 port.on('data', portData);
 port.on('close', portClose);
@@ -131,6 +130,7 @@ function portData(data) {
     rxBuffer = Buffer.concat([rxBuffer, data]);
     if (options.txLen == 0) {
         if (rxBuffer.length == (txBuffer.length * options.count)) {
+            console.log("TX == RX");
             process.exit(0);
         }
     }

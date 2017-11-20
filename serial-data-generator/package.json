@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "serialport": "^4.0.6"
+    "serialport": "^4.0.6",
+    "struct": "^0.0.11"
   },
   "devDependencies": {},
   "scripts": {
